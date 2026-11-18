@@ -1,0 +1,8 @@
+# 依赖与构建产物（deb 走 GitHub Release 附件，不进 git 历史）
+node_modules/
+dist/
+*.deb
+
+# 运行时 / 临时产物
+*.log
+.DS_Store

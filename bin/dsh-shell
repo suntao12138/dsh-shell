@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+# dsh-shell launcher — GUI launchers get a minimal PATH, so add the nvm bin dirs
+# where the dsh CLI (and node) actually live, then start the Electron shell.
+set -euo pipefail
+
+APP_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+
+for bin in "$HOME"/.nvm/versions/node/*/bin; do
+  [ -d "$bin" ] && PATH="$bin:$PATH"
+done
+export PATH
+
+: "${DSH_SHELL_PORT:=3080}"
+export DSH_SHELL_PORT
+
+if [ ! -x "$APP_DIR/node_modules/.bin/electron" ]; then
+  echo "dsh-shell: 未安装依赖，请先在 $APP_DIR 执行 npm install" >&2
+  exit 1
+fi
+
+# Chromium 的 SUID 沙箱助手必须 root:4755；源码目录里装出来的是普通权限，
+# 这时必须从命令行显式关闭沙箱（JS 里 appendSwitch 太晚，进程已起沙箱）。
+# .deb 安装到 /opt 后由 postinst 设好权限，沙箱自动保留。
+SANDBOX_ARGS=()
+SANDBOX_HELPER="$APP_DIR/node_modules/electron/dist/chrome-sandbox"
+if [ -f "$SANDBOX_HELPER" ] && [ "$(stat -c '%U:%a' "$SANDBOX_HELPER" 2>/dev/null)" != "root:4755" ]; then
+  SANDBOX_ARGS=(--no-sandbox)
+fi
+
+exec "$APP_DIR/node_modules/.bin/electron" "${SANDBOX_ARGS[@]}" "$APP_DIR" "$@"
