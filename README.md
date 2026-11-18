@@ -10,6 +10,15 @@ it **reuses the dsh engine you installed with npm 100%**, along with everything 
 
 Upstream: <https://github.com/deepseek-ai/deepseek-harness>
 
+## Screenshots
+
+![dsh-shell main window](screenshots/main-window-zh.png)
+
+The real window: the `应用 / 编辑` menu bar belongs to this shell (built to match the upstream Linux
+branch), everything below it is the untouched `dsh web` UI — sidebar, conversation, composer, model
+picker and token usage. The menu follows the app language, so switching dsh to English flips the bar
+to `Application / Edit` (see [Menu and internationalization](#menu-and-internationalization)).
+
 ## What it does
 
 1. Locates the `dsh` CLI (`PATH` → `~/.nvm/versions/node/*/bin/dsh` → `/usr/local/bin`)

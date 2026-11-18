@@ -10,6 +10,14 @@ profile、会话、凭据、插件全部走同一份 `~/.dsh`。
 
 上游仓库：<https://github.com/deepseek-ai/deepseek-harness>
 
+## 截图
+
+![dsh-shell 主窗口](screenshots/main-window-zh.png)
+
+真实窗口：顶部 `应用 / 编辑` 菜单条是本壳自己画的（照上游 Linux 分支的结构），下面是原封不动的
+`dsh web` 界面 —— 侧栏、对话区、输入框、模型选择和 token 用量。菜单跟随界面语言，把 dsh 切成英文后
+菜单条会变成 `Application / Edit`（见 [菜单与国际化](#菜单与国际化)）。
+
 ## 它做什么
 
 1. 找 `dsh` CLI（`PATH` → `~/.nvm/versions/node/*/bin/dsh` → `/usr/local/bin`）
